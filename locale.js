@@ -1,71 +1,71 @@
-var d = document;
+var document_ = document;
 
-function Locale() {
+function Locale_() {
 }
 
-Locale.AJAX_ = function (method_, URL_, data_, success_, fail_) {
-    var temp = [];
+Locale_.AJAX_ = function (method, URL, data, success, fail) {
+    var temp_ = [];
 
-    for (var i in data_) {
-        if (data_.hasOwnProperty(i)) {
-            temp.push(i + '=' + data_[i]);
+    for (var i_ in data) {
+        if (data.hasOwnProperty(i_)) {
+            temp_.push(i_ + '=' + data[i_]);
         }
     }
 
-    data_ = temp.join('&');
+    data = temp_.join('&');
 
-    if (method_.toLowerCase() === 'get') {
-        URL_ += '?' + data_;
-        data_ = null;
+    if (method.toLowerCase() === 'get') {
+        URL += '?' + data;
+        data = null;
     }
 
-    var x = new XMLHttpRequest();
-    x.open(method_, URL_, true);
+    var x_ = new XMLHttpRequest();
+    x_.open(method, URL, true);
 
-    if (method_.toLowerCase() === 'post') {
-        x.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    if (method.toLowerCase() === 'post') {
+        x_.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
 
-    x.send(data_);
+    x_.send(data);
 
-    x.onreadystatechange = function () {
-        if (x.readyState === 4) {
-            if (x.status === 200) {
-                if (success_) {
-                    success_(JSON.parse(x.response));
+    x_.onreadystatechange = function () {
+        if (x_.readyState === 4) {
+            if (x_.status === 200) {
+                if (success) {
+                    success(JSON.parse(x_.response));
                 }
             } else {
-                if (fail_) {
-                    fail_(x);
+                if (fail) {
+                    fail(x_);
                 }
             }
         }
     }
 }
 
-Locale.setLocaleEvent_ = function () {
-    var locales_ = d.querySelectorAll('[data-locale]'),
+Locale_.setLocaleEvent_ = function () {
+    var locales_ = document_.querySelectorAll('[data-locale]'),
         length_ = locales_.length;
 
     if (locales_ && length_) {
-        for (var i = 0; i < length_; i++) {
-            locales_[i].addEventListener('click', function (event_) {
-                var target_ = event_.target,
+        for (var i_ = 0; i_ < length_; i_++) {
+            locales_[i_].addEventListener('click', function (event) {
+                var target_ = event.target,
                     locale_ = target_.dataset.locale;
 
                 if (!locale_) {
                     return false;
                 }
 
-                event_.preventDefault();
+                event.preventDefault();
 
                 function setLocale_() {
-                    Locale.setLocale_(locale_);
+                    Locale_.setLocale_(locale_);
                 }
 
-                if (!Locale.locales_[locale_]) {
-                    Locale.AJAX_('get', locale_ + '.json', null, function (response_) {
-                        Locale.locales_[locale_] = response_;
+                if (!Locale_.locales_[locale_]) {
+                    Locale_.AJAX_('get', locale_ + '.json', null, function (response_) {
+                        Locale_.locales_[locale_] = response_;
 
                         setLocale_(locale_);
                     });
@@ -77,31 +77,31 @@ Locale.setLocaleEvent_ = function () {
     }
 }
 
-Locale.setLocale_ = function (locale_) {
-    var elements_ = d.querySelectorAll('[lang]'),
+Locale_.setLocale_ = function (locale_) {
+    var elements_ = document_.querySelectorAll('[lang]'),
         length_ = elements_.length;
 
     if (elements_ && length_) {
-        for (var i = 0; i < length_; i++) {
-            var element_ = elements_[i],
+        for (var i_ = 0; i_ < length_; i_++) {
+            var element_ = elements_[i_],
                 lang_ = element_.getAttribute('lang');
 
             if (element_.tagName !== 'HTML') {
-                if (!Locale.locales_[Locale.currentLocale_]) {
-                    Locale.locales_[Locale.currentLocale_] = {};
+                if (!Locale_.locales_[Locale_.currentLocale_]) {
+                    Locale_.locales_[Locale_.currentLocale_] = {};
                 }
 
-                if (!Locale.locales_[Locale.currentLocale_][lang_]) {
-                    Locale.locales_[Locale.currentLocale_][lang_] = element_.innerText;
+                if (!Locale_.locales_[Locale_.currentLocale_][lang_]) {
+                    Locale_.locales_[Locale_.currentLocale_][lang_] = element_.innerText;
                 }
 
-                element_.innerHTML = Locale.locales_[locale_][lang_];
+                element_.innerHTML = Locale_.locales_[locale_][lang_];
             }
         }
     }
 
-    Locale.currentLocale_ = locale_;
+    Locale_.currentLocale_ = locale_;
 }
 
-Locale.currentLocale_ = 'ru';
-Locale.locales_ = {};
+Locale_.currentLocale_ = 'ru';
+Locale_.locales_ = {};
