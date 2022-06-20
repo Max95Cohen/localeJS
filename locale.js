@@ -91,11 +91,27 @@ Locale_.setLocale_ = function (locale_) {
                     Locale_.locales_[Locale_.currentLocale_] = {};
                 }
 
-                if (!Locale_.locales_[Locale_.currentLocale_][lang_]) {
-                    Locale_.locales_[Locale_.currentLocale_][lang_] = element_.innerText;
+                if (!Locale.locales_[Locale.currentLocale_][lang_]) {
+                    if (element_.tagName === 'INPUT') {
+                        if (element_.placeholder && element_.placeholder.length) {
+                            Locale.locales_[Locale.currentLocale_][lang_] = element_.placeholder.trim();
+                        } else {
+                            Locale.locales_[Locale.currentLocale_][lang_] = element_.value;
+                        }
+                    } else {
+                        Locale.locales_[Locale.currentLocale_][lang_] = element_.innerText;
+                    }
                 }
 
-                element_.innerHTML = Locale_.locales_[locale_][lang_];
+                if (element_.tagName === 'INPUT') {
+                    if (element_.placeholder) {
+                        element_.placeholder = Locale.locales_[locale_][lang_];
+                    } else {
+                        element_.value = Locale.locales_[locale_][lang_];
+                    }
+                } else {
+                    element_.innerHTML = Locale.locales_[locale_][lang_];
+                }
             }
         }
     }
